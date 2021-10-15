@@ -33,6 +33,7 @@ namespace API
             //Transient objects are always different; a new instance is provided to every controller and every service.
             // Singleton objects are the same for every object and every request.
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
