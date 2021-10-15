@@ -32,5 +32,19 @@ namespace API.Controllers
             return await _repo.GetProductByIdAsync(id);
         }
 
+        [HttpGet("brands")]
+        //Prefer IEnumerable when accepting a collection. 
+        //Prefer IReadOnlyList when returning one.
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetProductBrands()
+        {
+            return Ok(await _repo.GetProductBrandsAsync()) ;
+        }
+
+        [HttpGet("types")]
+        public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductTypes()
+        {
+            return Ok(await _repo.GetProductTypesAsync());
+        }
+
     }
 }

@@ -17,12 +17,30 @@ namespace Infrastructure.Data
         }
         public async Task<IReadOnlyList<Product>> GetProductAsync()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products
+            .Include(p=>p.ProductType)
+            .Include(p=>p.ProductBrand)
+            .ToListAsync();
+        }
+
+        public async Task<IReadOnlyList<ProductBrand>> GetProductBrandsAsync()
+        {
+            return await _context.ProductBrands.ToListAsync();
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
-            return await _context.Products.FindAsync(id);
+            //Find() isn't allowed
+            //use FirstorDefault()
+            return await _context.Products
+            .Include(p=>p.ProductBrand)
+            .Include(p=>p.ProductType)
+            .FirstOrDefaultAsync(p=>p.Id == id);
+        }
+
+        public async Task<IReadOnlyList<ProductType>> GetProductTypesAsync()
+        {
+            return await _context.ProductTypes.ToListAsync();
         }
     }
 }
