@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Helpers;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Builder;
@@ -34,6 +35,7 @@ namespace API
             // Singleton objects are the same for every object and every request.
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped(typeof(IGenericRepository<>), (typeof(GenericRepository<>)));
+            services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -55,6 +57,9 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            //images were added in wwwroot/images so
+            app.UseStaticFiles();
 
             app.UseAuthorization();
 
