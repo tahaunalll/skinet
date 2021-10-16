@@ -25,10 +25,13 @@ namespace API
 
             services.AddAutoMapper(typeof(MappingProfiles));
             services.AddControllers();
-           
-            services.AddDbContext<StoreContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<StoreContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+           
+            //Extensions/AddApplicationServices
             services.AddApplicationServices();
+
+            //Extensions/SwaggerServiceExtensions
             services.AddSwaggerDocumentation();
         }
 
@@ -36,14 +39,14 @@ namespace API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseMiddleware<ExceptionMiddleware>();
-           
+
             // if (env.IsDevelopment())
             // {
-                // app.UseDeveloperExceptionPage();
-                // app.UseSwagger();
-                // app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
+            // app.UseDeveloperExceptionPage();
+            // app.UseSwagger();
+            // app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             // }
-            
+
             //ErrorController.cs
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
@@ -55,6 +58,8 @@ namespace API
             app.UseStaticFiles();
 
             app.UseAuthorization();
+
+            //Extensions/SwaggerServiceExtensions
             app.UseSwaggerDocumentation();
 
             app.UseEndpoints(endpoints =>
